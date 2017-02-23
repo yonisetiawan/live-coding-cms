@@ -1,0 +1,31 @@
+.containerTOP{
+  margin: 5%;
+}
+
+.loginForm{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm .column{
+  /*float: right;*/
+  width: 400px;
+}
+
+
+.boxTodos{
+  padding: 0 30%;
+}
+
+.submitTodo{
+  padding-top: 20px;
+  /*float: right;*/
+}
+.buttonStatus{
+  float: right;
+}
+
+.formUpdate{
+  padding: 5%;
+}

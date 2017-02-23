@@ -1,0 +1,106 @@
+body {
+    width: 100%;
+    margin-top: 10px;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    color: #3a3a3a;
+}
+
+.container {
+    width: 960px;
+    margin: 0 auto;
+}
+
+.carousel-inner {
+    margin-top: 15px;
+}
+
+#logo {
+    margin-left: 12px;
+    background-color: rgb(240, 126, 7);
+    margin-right: 40px;
+}
+
+#image-home {
+    z-index: 0;
+    position: relative;
+}
+
+#image-home img {
+
+    margin-left: -450px;
+}
+
+#navigation-links {
+    list-style-type: none;
+    background-color: rgb(53, 187, 245);
+    overflow: hidden;
+}
+
+#navigation-links li a {
+    float: left;
+    padding: 12px 15px;
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+#navigation-links li a:hover {
+    color: white;
+    background-color: rgb(240, 126, 7);
+}
+
+#navigation-links li a:active {
+    background-color: rgb(205, 105, 0)
+}
+
+.navbar-right {
+    float: right;
+    margin-right: 15px;
+}
+
+.imageHome{
+  width: 100%;
+  margin-top: 1%;
+}
+
+div.ui.icon{
+  margin-left: 15px;
+  margin-top: 4px;
+  width: 40%;
+}
+
+.boxHouse{
+  overflow: hidden;
+  margin-left: 1rem;
+  height: 500px;
+  width: 560px;
+
+}
+
+.boxMaps{
+  overflow: auto;
+  margin-left: 0.5rem;
+  height: 500px;
+  width: 560px;
+  /*background-color: green;*/
+}
+.getMaps{
+  overflow: auto;
+  margin-left: 0.5rem;
+  height: 500px;
+  width: 630px;
+  /*background-color: green;*/
+}
+
+.formUpdate{
+  padding: 5%;
+}
+
+div.ui.card{
+  margin-left: 1rem;
+}
+
+.list{
+  margin-top: 1%;
+}
