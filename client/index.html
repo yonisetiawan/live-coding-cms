@@ -13,17 +13,16 @@
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-          window.location.href = "http://localhost:8080/login.html"
-            // swal({
-            //         title: "Welcome!",
-            //         text: "Klik OK to Access Adminpanel Area",
-            //         showCancelButton: true,
-            //         confirmButtonColor: "#27bbe3",
-            //         closeOnConfirm: false
-            //     },
-            //     function() {
-            //         window.location.href = "http://localhost:8080/login.html"
-            //     });
+            swal({
+                    title: "Welcome!",
+                    text: "Klik OK to Access Adminpanel Area",
+                    showCancelButton: true,
+                    confirmButtonColor: "#27bbe3",
+                    closeOnConfirm: false
+                },
+                function() {
+                    window.location.href = "http://localhost:8080/login.html"
+                });
 
         })
     </script>

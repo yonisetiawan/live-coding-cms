@@ -23,8 +23,8 @@
                     <input type="text" placeholder="Search...">
                     <i class="circular search link icon"></i>
                 </div>
-                <li id="register" class="navbar-right"><a href="#">Sign up</a></li>
-                <li id="login" class="navbar-right"><a href="#">Login</a></li>
+                <li id="register" class="navbar-right"><a href="/register.html">Sign up</a></li>
+                <li id="login" class="navbar-right"><a href="/login.html">Login</a></li>
             </ul>
         </nav>
 
@@ -42,12 +42,12 @@
                 Input Your Products
             </div>
             <form class="ui form formUpdate">
-                <!-- <input type="hidden" id="id" placeholder="Title" v-model="_id"> -->
+                <input type="hidden" id="id" placeholder="Title" v-model="_id">
                 <div class="field">
-                    <input type="text" id="title" placeholder="Title" v-model="inputHouse.name">
+                    <input type="text" id="title" placeholder="Title" v-model="">
                 </div>
                 <div class="field">
-                    <input type="text" id="address" placeholder="Address" v-model="inputHouse.address">
+                    <input type="text" id="address" placeholder="Address" v-model="">
                 </div>
                 <div class="field">
                     <textarea id="description" placeholder="Description" rows="3" v-model="inputHouse.description"></textarea>
@@ -69,26 +69,19 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="./js/vueconnect.js"></script>
+    <!-- <script type="text/javascript" src="./js/vueconnect.js"></script> -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7HolcV3Hn1mv9TooZPPiUypoZj3SIods"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gmaps.js/0.4.24/gmaps.js"></script>
     <script type="text/javascript" src="./js/semantic.min.js"></script>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-          // swal({
-          //     title: "Welcome",
-          //     text: "rubi.henjaya@gmail.com",
-          //     timer: 3000,
-          //     showConfirmButton: false
-          // });
-        })
-    </script>
+    <script type="text/javascript" src="./js/index.js"></script>
 </body>
 
 </html>

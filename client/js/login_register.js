@@ -3,7 +3,7 @@ function register() {
         swal("Lengkapi Form Register")
     } else {
         $.ajax({
-            url: "http://localhost:3000/register",
+            url: "http://localhost:3000/users/register",
             type: "POST",
             data: {
                 name: $("#name").val(),
@@ -20,8 +20,9 @@ function register() {
 }
 
 $(document).ready(function() {
+
   $.ajax({
-      url: "http://localhost:3000/decode",
+      url: "http://localhost:3000/users/decode",
       type: "POST",
       data:{
           token: localStorage.getItem("token")
@@ -34,7 +35,7 @@ $(document).ready(function() {
         }else if(result.name == "JsonWebTokenError"){
 
         }else{
-          window.location.href = "http://localhost:8080"
+          window.location.href = "http://localhost:8080/login.html"
         }
       }
   })
@@ -42,21 +43,21 @@ $(document).ready(function() {
 
 
 function login() {
+    localStorage.setItem("email", $("#email").val())
     if ($("#email").val() == "" || $("#password").val() == "") {
         swal("Lengkapi Form Login")
     } else {
         $.ajax({
-            url: "http://localhost:3000/login",
+            url: "http://localhost:3000/users/login",
             type: "POST",
             data: {
                 email: $("#email").val(),
                 password: $("#password").val()
             },
             success: function(result) {
-              console.log(result);
                 if (result.status) {
                     localStorage.setItem("token",result.token)
-                    window.location.replace("http://localhost:8080")
+                    window.location.replace("http://localhost:8080/home.html")
                 }else{
                   swal(result.msg)
                 }

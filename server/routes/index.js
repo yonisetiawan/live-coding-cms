@@ -1,27 +1,22 @@
 var express = require('express');
 var router = express.Router();
-// var modelsHouse = require('../models/house')
+var modelsIndex = require('../models/index')
 
 /* GET home page. */
 router.get('/getAll', function(req, res, next) {
-    modelsHouse.find({},function(err, result) {
+    modelsIndex.find({},function(err, result) {
        if(err)res.send(err)
        else res.send(result)
     })
 });
 
 router.post('/add', function(req, res, next) {
-  var addHouse = new modelsHouse({
-    name: req.body.inputHouse.name,
-    address: req.body.inputHouse.address,
-    description: req.body.inputHouse.description,
-    price: req.body.inputHouse.price,
-    phone: req.body.inputHouse.phone,
-    imageUrl: req.body.inputHouse.imageUrl,
-    lat: req.body.inputHouse.lat,
-    lng: req.body.inputHouse.lng
+  var addData = new modelsIndex({
+    letter: req.body.letter,
+    frequency: req.body.frequency,
+    date: req.body.date
   })
-  addHouse.save(function(err, result) {
+  addData.save(function(err, result) {
     if(err)res.send(err)
     else res.send(result)
   })

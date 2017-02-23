@@ -36,42 +36,35 @@ var Users = {
         })
     },
     register: function(req, res, next) {
-      console.log(req.body.addRegister);
-        // var register = new modelsUsers({
-        //     name: req.body.addRegister.name,
-        //     email: req.body.addRegister.email,
-        //     password: passwordHash.generate(req.body.addRegister.password)
-        // })
-        // register.save(function(err, result) {
-        //     if (err) {
-        //         res.send(err)
-        //     } else {
-        //         res.send(result)
-        //     }
-        // })
+        var register = new modelsUsers({
+            name: req.body.name,
+            email: req.body.email,
+            password: passwordHash.generate(req.body.password)
+        })
+        register.save(function(err, result) {
+            if (err) {
+                res.send(err)
+            } else {
+                res.send(result)
+            }
+        })
     },
-    //
-    // decode: function(req, res, next) {
-    //     jwt.verify(req.body.token, "CODEuntukDECODE", function(err, decoded) {
-    //         if (err) {
-    //           res.send(err.name)
-    //             /*
-    //               err = {
-    //                 name: 'TokenExpiredError',
-    //                 message: 'jwt expired',
-    //                 expiredAt: 1408621000
-    //               }
-    //             */
-    //         }else{
-    //           res.send(decoded.email)
-    //         }
-    //     });
-    // },
 
-    getAll: function(req, res, next) {
-      modelsUsers.find({},function(err, result) {
-        res.send(result)
-      })
+    decode: function(req, res, next) {
+        jwt.verify(req.body.token, "CODEuntukDECODE", function(err, decoded) {
+            if (err) {
+              res.send(err.name)
+                /*
+                  err = {
+                    name: 'TokenExpiredError',
+                    message: 'jwt expired',
+                    expiredAt: 1408621000
+                  }
+                */
+            }else{
+              res.send(decoded.email)
+            }
+        });
     }
 }
 
