@@ -22,4 +22,39 @@ router.post('/add', function(req, res, next) {
   })
 });
 
+
+router.delete('/delete', function(req, res, next) {
+
+    var dataRemove = JSON.parse(req.body.arrId)
+    dataRemove.forEach(function(data) {
+        modelsIndex.find({
+            _id: data
+        }, function(err, result) {
+            if (err) res.send(err)
+            else {
+                result[0].remove(function(err) {
+                    if (err) res.send(err)
+                })
+            }
+        })
+    })
+    res.send({
+        status: true
+    })
+});
+
+router.put('/update', function(req, res, next) {
+    modelsIndex.findById(req.body.id, function(err, result) {
+        if (err) res.send(err)
+        else {
+            result.letter = req.body.letter
+            result.frequency = req.body.frequency
+            result.date = req.body.date
+            result.save()
+            res.send(result)
+        }
+    })
+
+});
+
 module.exports = router;

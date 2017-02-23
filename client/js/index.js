@@ -45,6 +45,7 @@ $(document).ready(function() {
 
 
 function showData() {
+  document.getElementById("listData").innerHTML = ""
   var tampung = `
     <div class="ui container containerTOP">
         <div class="boxTodos">
@@ -72,7 +73,8 @@ function showData() {
         <table class="ui celled table">
             <thead>
                 <tr>
-                    <th>Title</th>
+                    <th>Letter</th>
+                    <th>Frequency</th>
                     <th id="action">Action</th>
                 </tr>
             </thead>
@@ -148,7 +150,7 @@ function showData() {
 
 
   $("#listData").append(tampung)
-  // showDataAll()
+  showDataAll()
 
   $(function() {
       $("#listtodo").sortable();
@@ -171,9 +173,9 @@ function showDataAll() {
               var tampung = ""
               for (var i = result.length - 1; i >= 0; i--) {
                   tampung += `     <tr id="trID${result[i]._id}">
-                                    <td id="idTitle${result[i]._id}">${result[i].title}</td>
-                                    <input id="idDescription${result[i]._id}" type="hidden" value="${result[i].description}"></input>
-                                    <input id="idDatepicker${result[i]._id}" type="hidden" value="${result[i].status}"></input>
+                                    <td id="idTitle${result[i]._id}">${result[i].letter}</td>
+                                    <td id="idDescription${result[i]._id}">${result[i].frequency}</td>
+                                    <input id="idDatepicker${result[i]._id}" type="hidden" value="${result[i].date}"></input>
                                     <td class="collapsing">
                                         <div class="ui fitted checkbox">
                                             <input id="${result[i]._id}" type="checkbox"><label name="actioncheck"></label>
@@ -200,11 +202,11 @@ function addTodos() {
             if (result) {
                 tampung = `     <tr id="trID${result._id}">
                                       <td id="idTitle${result._id}">${result.letter}</td>
-                                      <input id="idDescription${result._id}" type="text" value="${result.frequency}"></input>
+                                      <td id="idDescription${result._id}">${result.frequency}</input>
                                       <input id="idDatepicker${result._id}" type="hidden" value="${result.date}"></input>
                                       <td class="collapsing">
                                           <div class="ui fitted checkbox">
-                                              <input id="${result._id}" type="checkbox"><label name="actioncheck"></label>
+                                    $("#listData").append("")          <input id="${result._id}" type="checkbox"><label name="actioncheck"></label>
                                           </div>
                                       </td>
                                   </tr>`
@@ -267,7 +269,7 @@ function checkAction(input) {
             }else if(input == "update"){
                 $('#idUpdate').val(`${id}`)
                 $('#titleUpdate').val($(`#idTitle${id}`).text())
-                $('#descriptionUpdate').val($(`#idDescription${id}`).val())
+                $('#descriptionUpdate').val($(`#idDescription${id}`).text())
                 $('#datepickerUpdate').val($(`#idDatepicker${id}`).val())
                 break;
             }else {
@@ -295,15 +297,15 @@ function runningUpdate() {
             type: "PUT",
             data: {
                 id: id,
-                title: title,
-                description: description,
-                status: status
+                letter: title,
+                frequency: description,
+                date: status
             },
             success: function(result) {
               tampung = `     <tr id="trID${result._id}">
-                                    <td id="idTitle${result._id}">${result.title}</td>
-                                    <input id="idDescription${result._id}" type="hidden" value="${result.description}"></input>
-                                    <input id="idDatepicker${result._id}" type="hidden" value="${result.status}"></input>
+                                    <td id="idTitle${result._id}">${result.letter}</td>
+                                    <td id="idDescription${result._id}">${result.frequency}</td>
+                                    <input id="idDatepicker${result._id}" type="hidden" value="${result.date}"></input>
                                     <td class="collapsing">
                                         <div class="ui fitted checkbox">
                                             <input id="${result._id}" type="checkbox"><label name="actioncheck"></label>
