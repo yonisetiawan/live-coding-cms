@@ -1,52 +1,52 @@
 $(document).ready(function() {
-  $.ajax({
-      url: "http://localhost:3000/users/decode",
-      type: "POST",
-      data:{
-          token: localStorage.getItem("token")
-      },
-      success: function(result) {
-        // localStorage.setItem("email", result.email)
-        if (result.name == "TokenExpiredError") {
-          // swal("Expired Login")
-          window.location.href = "http://localhost:8080/login.html"
-        }else if(result.name == false){
-          // swal("Invalid Login")
-          window.location.href = "http://localhost:8080/login.html"
-        }else if(result.name == "JsonWebTokenError"){
-            window.location.href = "http://localhost:8080/login.html"
-        }else{
-          document.querySelector("#register").innerHTML = ""
-          document.querySelector("#login").innerHTML = `<a id="logout" onclick="logout()" href="#" >Logout</a>`
+    $.ajax({
+        url: "http://localhost:3000/users/decode",
+        type: "POST",
+        data: {
+            token: localStorage.getItem("token")
+        },
+        success: function(result) {
+            // localStorage.setItem("email", result.email)
+            if (result.name == "TokenExpiredError") {
+                // swal("Expired Login")
+                window.location.href = "http://localhost:8080/login.html"
+            } else if (result.name == false) {
+                // swal("Invalid Login")
+                window.location.href = "http://localhost:8080/login.html"
+            } else if (result.name == "JsonWebTokenError") {
+                window.location.href = "http://localhost:8080/login.html"
+            } else {
+                document.querySelector("#register").innerHTML = ""
+                document.querySelector("#login").innerHTML = `<a id="logout" onclick="logout()" href="#" >Logout</a>`
+            }
         }
-      }
 
 
-  })
+    })
 
 
 })
 
 function logout() {
-  localStorage.clear()
-  window.location.href = "http://localhost:8080/login.html"
+    localStorage.clear()
+    window.location.href = "http://localhost:8080/login.html"
 }
 
 $(document).ready(function() {
-  if(localStorage.getItem("email")){
-    swal({
-        title: "Welcome",
-        text: localStorage.getItem("email"),
-        timer: 2000,
-        showConfirmButton: false
-    });
-  }
+    if (localStorage.getItem("email")) {
+        swal({
+            title: "Welcome",
+            text: localStorage.getItem("email"),
+            timer: 2000,
+            showConfirmButton: false
+        });
+    }
 })
 
 
 function showData() {
-  document.getElementById("listData").innerHTML = ""
-  var tampung = `
+    document.getElementById("listData").innerHTML = ""
+    var tampung = `
     <div class="ui container containerTOP">
         <div class="boxTodos">
             <form class="ui form">
@@ -69,12 +69,31 @@ function showData() {
             </div>
 
         </div>
+        <br>
+        <div class="boxTodos">
+            <form class="ui form">
+                <div class="field">
+                    <input id="letterSearch" type="text" name="letter" placeholder="letter">
+                </div>
+                <div class="Todos">
+                    <textarea id="frequencySearch" placeholder="frequency" rows="3"></textarea>
+                </div>
+                <div class="field">
+                  <input id="datepickerSearch" type="text" name="date" placeholder="02/09/2017">
+                </div>
+            </form>
+            <div class="submitTodo five ui buttons">
+                <button onclick="searchData()" class="ui teal button">Search</button>
+            </div>
+        </div>
+
 
         <table class="ui celled table">
             <thead>
                 <tr>
                     <th>Letter</th>
                     <th>Frequency</th>
+                    <th>Date</th>
                     <th id="action">Action</th>
                 </tr>
             </thead>
@@ -149,74 +168,118 @@ function showData() {
     </div>`
 
 
-  $("#listData").append(tampung)
-  showDataAll()
+    $("#listData").append(tampung)
+    showDataAll()
 
-  $(function() {
-      $("#listtodo").sortable();
-      $("#listtodo").disableSelection();
-  });
-  $(function() {
-    $( "#datepicker" ).datepicker();
-  });
-  $(function() {
-    $( "#datepickerUpdate" ).datepicker();
-  });
+    $(function() {
+        $("#listtodo").sortable();
+        $("#listtodo").disableSelection();
+    });
+    $(function() {
+        $("#datepicker").datepicker();
+    });
+    $(function() {
+        $("#datepickerUpdate").datepicker();
+    });
+}
+
+function searchData() {
+    if ($("#letterSearch").val() == "" && $("#frequencySearch").val() == "") {
+        swal("Warning !", "Silahkan Salah Satu Kata Kunci")
+    } else {
+        $.ajax({
+            url: "http://localhost:3000/search",
+            type: "POST",
+            data: {
+                letter: $("#letterSearch").val(),
+                frequency: $("#frequencySearch").val(),
+            },
+            success: function(result) {
+              document.getElementById("listtodo").innerHTML = ""
+                if (result) {
+                    var tampung = ""
+                    for (var i = result.length - 1; i >= 0; i--) {
+                        tampung += `     <tr id="trID${result[i]._id}">
+                                      <td id="idTitle${result[i]._id}">${result[i].letter}</td>
+                                      <td id="idDescription${result[i]._id}">${result[i].frequency}</td>
+                                      <td id="idDatepicker${result[i]._id}">${result[i].date}</td>
+                                      <td class="collapsing">
+                                          <div class="ui fitted checkbox">
+                                              <input id="${result[i]._id}" type="checkbox"><label name="actioncheck"></label>
+                                          </div>
+                                      </td>
+                                  </tr>`
+                    }
+                    $("#listtodo").append(tampung)
+                }
+
+                $("#letterSearch").val('')
+                $("#frequencySearch").val('')
+            }
+        })
+    }
 }
 
 function showDataAll() {
-  $.ajax({
-      url: "http://localhost:3000/getAll",
-      type: "GET",
-      success: function(result) {
-          if (result) {
-              var tampung = ""
-              for (var i = result.length - 1; i >= 0; i--) {
-                  tampung += `     <tr id="trID${result[i]._id}">
+    $.ajax({
+        url: "http://localhost:3000/getAll",
+        type: "GET",
+        success: function(result) {
+            if (result) {
+                var tampung = ""
+                for (var i = result.length - 1; i >= 0; i--) {
+                    tampung += `     <tr id="trID${result[i]._id}">
                                     <td id="idTitle${result[i]._id}">${result[i].letter}</td>
                                     <td id="idDescription${result[i]._id}">${result[i].frequency}</td>
-                                    <input id="idDatepicker${result[i]._id}" type="hidden" value="${result[i].date}"></input>
+                                    <td id="idDatepicker${result[i]._id}">${date.localDate(new Date(result[i].date))}</td>
                                     <td class="collapsing">
                                         <div class="ui fitted checkbox">
                                             <input id="${result[i]._id}" type="checkbox"><label name="actioncheck"></label>
                                         </div>
                                     </td>
                                 </tr>`
-              }
-              $("#listtodo").append(tampung)
-          }
-      }
-  })
-}
-
-function addTodos() {
-    $.ajax({
-        url: "http://localhost:3000/add",
-        type: "POST",
-        data: {
-            letter: $("#letter").val(),
-            frequency: $("#frequency").val(),
-            date: $("#datepicker").val()
-        },
-        success: function(result) {
-            if (result) {
-                tampung = `     <tr id="trID${result._id}">
-                                      <td id="idTitle${result._id}">${result.letter}</td>
-                                      <td id="idDescription${result._id}">${result.frequency}</input>
-                                      <input id="idDatepicker${result._id}" type="hidden" value="${result.date}"></input>
-                                      <td class="collapsing">
-                                          <div class="ui fitted checkbox">
-                                    $("#listData").append("")          <input id="${result._id}" type="checkbox"><label name="actioncheck"></label>
-                                          </div>
-                                      </td>
-                                  </tr>`
-                $("#listtodo").prepend(tampung)
-                $("#letter").val('')
-                $("#frequency").val('')
-                $("#datepicker").val('')
+                }
+                $("#listtodo").append(tampung)
             }
         }
     })
+}
+
+
+
+function addTodos() {
+    if ($("#letter").val() == "" || $("#frequency").val() == "" || $("#datepicker").val() == "") {
+        swal("Warning !", "Silahkan ISI FORM")
+    } else {
+        $.ajax({
+            url: "http://localhost:3000/add",
+            type: "POST",
+            data: {
+                letter: $("#letter").val(),
+                frequency: $("#frequency").val(),
+                date: $("#datepicker").val()
+            },
+            success: function(result) {
+                if (result) {
+                    tampung = `     <tr id="trID${result._id}">
+                                      <td id="idTitle${result._id}">${result.letter}</td>
+                                      <td id="idDescription${result._id}">${result.frequency}</input>
+                                      <td id="idDatepicker${result._id}">${date.localDate(new Date(result.date))}</input>
+                                      <td class="collapsing">
+                                          <div class="ui fitted checkbox">
+                                            <input id="${result._id}" type="checkbox"><label name="actioncheck"></label>
+                                          </div>
+                                      </td>
+                                  </tr>`
+                    $("#listtodo").prepend(tampung)
+                    $("#letter").val('')
+                    $("#frequency").val('')
+                    $("#datepicker").val('')
+                }
+            }
+        })
+
+    }
 
 }
 
@@ -266,17 +329,17 @@ function checkAction(input) {
             if (input == "remove") {
                 document.getElementById(`trID${id}`).innerHTML = ""
                 arrId.push(id)
-            }else if(input == "update"){
+            } else if (input == "update") {
                 $('#idUpdate').val(`${id}`)
                 $('#titleUpdate').val($(`#idTitle${id}`).text())
                 $('#descriptionUpdate').val($(`#idDescription${id}`).text())
-                $('#datepickerUpdate').val($(`#idDatepicker${id}`).val())
+                $('#datepickerUpdate').val($(`#idDatepicker${id}`).text())
                 break;
-            }else {
-              document.querySelector("h1#titleRead").innerHTML = $(`#idTitle${id}`).text()
-              document.querySelector("p#descriptionRead").innerHTML = $(`#idDescription${id}`).val()
-              document.querySelector("p#datepickerRead").innerHTML = date.localDate(new Date($(`#idDatepicker${id}`).val()))
-              break;
+            } else {
+                document.querySelector("h1#titleRead").innerHTML = $(`#idTitle${id}`).text()
+                document.querySelector("p#descriptionRead").innerHTML = $(`#idDescription${id}`).text()
+                document.querySelector("p#datepickerRead").innerHTML = date.localDate(new Date($(`#idDatepicker${id}`).text()))
+                break;
             }
         }
     }
@@ -302,7 +365,7 @@ function runningUpdate() {
                 date: status
             },
             success: function(result) {
-              tampung = `     <tr id="trID${result._id}">
+                tampung = `     <tr id="trID${result._id}">
                                     <td id="idTitle${result._id}">${result.letter}</td>
                                     <td id="idDescription${result._id}">${result.frequency}</td>
                                     <input id="idDatepicker${result._id}" type="hidden" value="${result.date}"></input>

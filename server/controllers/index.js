@@ -16,3 +16,21 @@
 //       }
 //   })
 // }
+
+
+// var app = new Vue({
+//     el: '#app',
+//     data: {
+//         message: 'Welcome to CMS',
+//         allData: [],
+//         search: '',
+//         createTweet: {
+//             tweet: '',
+//         }
+//     },
+//     methods: {
+//
+//     }
+// })
+//
+// app.getAllTweet()
