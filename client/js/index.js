@@ -79,7 +79,7 @@ function showData() {
                     <textarea id="frequencySearch" placeholder="frequency" rows="3"></textarea>
                 </div>
                 <div class="field">
-                  <input id="datepickerSearch" type="text" name="date" placeholder="02/09/2017">
+                  <input id="datepickerUpdate" type="text" name="date" placeholder="02/09/2017">
                 </div>
             </form>
             <div class="submitTodo five ui buttons">
@@ -131,7 +131,7 @@ function showData() {
                     <textarea id="descriptionUpdate" placeholder="Description" rows="3"></textarea>
                 </div>
                 <div class="field">
-                  <input id="datepickerUpdate" type="text" name="date" placeholder="02/09/2017">
+                  <input id="datepickerSearch" type="text" name="date" placeholder="02/09/2017">
                 </div>
             </form>
             <div class="actions">
@@ -179,12 +179,15 @@ function showData() {
         $("#datepicker").datepicker();
     });
     $(function() {
+        $("#datepickerSearch").datepicker();
+    });
+    $(function() {
         $("#datepickerUpdate").datepicker();
     });
 }
 
 function searchData() {
-    if ($("#letterSearch").val() == "" && $("#frequencySearch").val() == "") {
+    if ($("#letterSearch").val() == "" && $("#frequencySearch").val() == "" && $("#datepickerSearch").val() == "") {
         swal("Warning !", "Silahkan Salah Satu Kata Kunci")
     } else {
         $.ajax({
@@ -193,6 +196,7 @@ function searchData() {
             data: {
                 letter: $("#letterSearch").val(),
                 frequency: $("#frequencySearch").val(),
+                date: $("#datepickerSearch").val(),
             },
             success: function(result) {
               document.getElementById("listtodo").innerHTML = ""
@@ -202,7 +206,7 @@ function searchData() {
                         tampung += `     <tr id="trID${result[i]._id}">
                                       <td id="idTitle${result[i]._id}">${result[i].letter}</td>
                                       <td id="idDescription${result[i]._id}">${result[i].frequency}</td>
-                                      <td id="idDatepicker${result[i]._id}">${result[i].date}</td>
+                                      <td id="idDatepicker${result[i]._id}">${date.localDate(new Date(result[i].date))}</td>
                                       <td class="collapsing">
                                           <div class="ui fitted checkbox">
                                               <input id="${result[i]._id}" type="checkbox"><label name="actioncheck"></label>
@@ -215,6 +219,7 @@ function searchData() {
 
                 $("#letterSearch").val('')
                 $("#frequencySearch").val('')
+                  $("#datepickerSearch").val('')
             }
         })
     }
@@ -368,7 +373,7 @@ function runningUpdate() {
                 tampung = `     <tr id="trID${result._id}">
                                     <td id="idTitle${result._id}">${result.letter}</td>
                                     <td id="idDescription${result._id}">${result.frequency}</td>
-                                    <input id="idDatepicker${result._id}" type="hidden" value="${result.date}"></input>
+                                    <td id="idDatepicker${result._id}">${date.localDate(new Date(result.date))}</td>
                                     <td class="collapsing">
                                         <div class="ui fitted checkbox">
                                             <input id="${result._id}" type="checkbox"><label name="actioncheck"></label>
@@ -393,4 +398,15 @@ function deleteTodos(arrId) {
         }
     });
 
+}
+
+function seedtoData() {
+  $.ajax({
+      url: "http://localhost:3000/seedData",
+      type: "POST",
+      success: function(result) {
+          showData()
+          swal("Statis !", "Data Seed Masuk")
+      }
+  })
 }
